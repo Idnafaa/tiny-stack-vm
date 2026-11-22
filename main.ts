@@ -1,4 +1,10 @@
-// interpreter for the tiny stack bytecode (wrapping i32, traps 2-11)
+// Tiny stack VM interpreter (make.fun stack ISA v1): wrapping i32 arithmetic,
+// 256-word value stack, 64-deep return stack, 256 words of memory, 1e6-step
+// and 64KiB-output limits. Reads each instance from /input/<id>/
+// (program.bin, input.bin) and writes /output/<id>/stdout.bin + exit.txt.
+// Exit codes: 0 halt, 2 stack underflow, 3 stack overflow, 4 div/mod by zero,
+// 5 bad opcode, 6 bad memory address, 7 call overflow, 8 return underflow,
+// 9 pc out of range, 10 step limit, 11 output limit; EXIT returns v & 255.
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 const IN = process.env.MAKEFUN_INPUT_DIR || '/input';
